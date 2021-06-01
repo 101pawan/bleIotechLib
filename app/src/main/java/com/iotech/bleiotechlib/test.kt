@@ -1,6 +1,6 @@
 package com.iotech.bleiotechlib
 
-class test : BleActivity() {
+class test : MainActivity() {
 
    fun test(){
         scanLeDevice(true)

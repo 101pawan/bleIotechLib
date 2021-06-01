@@ -20,7 +20,7 @@ import com.iotech.blelibrary.Utils
 import java.util.*
 import kotlin.collections.ArrayList
 
-open class BleActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
     private var mBluetoothAdapter: BluetoothAdapter? = null
     private var mScanning: Boolean = false
     private var mHandler: Handler? = null
