@@ -35,6 +35,7 @@ open class BleActivity : AppCompatActivity() {
             Toast.makeText(this, "ble_not_supported", Toast.LENGTH_SHORT).show()
             finish()
         }
+        scanLeDevice(true)
     }
 
     protected fun scanLeDevice(enable: Boolean) {
