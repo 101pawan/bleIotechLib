@@ -17,85 +17,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Initiaze {
-    private var mBluetoothAdapter: BluetoothAdapter? = null
-    private var mScanning: Boolean = false
-    private var mHandler: Handler? = null
-    private var mLocationManager: LocationManager? = null
-    private var timer: Timer? = null
-    private var index = 0
 
-    fun scanLeDevice(enable: Boolean) {
-        if (!mBluetoothAdapter!!.isEnabled)
-            return
-        val mLeScanner = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBluetoothAdapter?.bluetoothLeScanner
-        } else {
-            TODO("VERSION.SDK_INT < LOLLIPOP")
-        }
-        if (!mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            enableLocationService()
-        } else {
-            if (enable) {
-                // Stops scanning after a pre-defined scan period.
-                mHandler?.postDelayed({
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        mLeScanner?.stopScan(scanCallback)
-                    }
-                    mScanning = false
-//                    updateDeviceList()
-                }, SCAN_PERIOD)
-                mScanning = true
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val scanFilters = ArrayList<ScanFilter>()
-                    scanFilters.add(
-                        ScanFilter.Builder().setServiceUuid(
-                            ParcelUuid.fromString(
-                                "0000CC01-0000-1000-8000-00805F9B34FB"
-                            )
-                        ).build()
-                    )
-                    val scanSettings: ScanSettings =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                                .build()
-                        } else {
-                            ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                                .build()
-                        }
-                    mLeScanner?.startScan(scanFilters, scanSettings, scanCallback)
-                }
-            } else {
-                mScanning = false
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mLeScanner?.stopScan(scanCallback)
-                }
-            }
-        }
-    }
 
-    private val scanCallback = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        object : ScanCallback() {
 
-            override fun onScanResult(callbackType: Int, result: ScanResult) {
-                super.onScanResult(callbackType, result)
-                //            if (!localArrayList.contains(result.device)) {
-                //                localArrayList.add(result.device)
-                //            }
-                Utils.d(result.device.name)
-            }
 
-            override fun onBatchScanResults(results: List<ScanResult>) {
-                super.onBatchScanResults(results)
-//                for (result in results) {
-//                    if (!localArrayList.contains(result.device)) {
-//                        localArrayList.add(result.device)
-//                    }
-//                }
-            }
-        }
-    } else {
-        TODO("VERSION.SDK_INT < LOLLIPOP")
-    }
+
 
 //    private fun enableLocationService() {
 //        AlertDialog.Builder(this)
@@ -136,5 +62,83 @@ class Initiaze {
 
         // Stops scanning after 3 seconds.
         private const val SCAN_PERIOD: Long = 6500
+        private var mBluetoothAdapter: BluetoothAdapter? = null
+        private var mScanning: Boolean = false
+        private var mHandler: Handler? = null
+        private var mLocationManager: LocationManager? = null
+        private var timer: Timer? = null
+        private var index = 0
+
+        fun scanLeDevice(enable: Boolean) {
+            if (!mBluetoothAdapter!!.isEnabled)
+                return
+            val mLeScanner = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mBluetoothAdapter?.bluetoothLeScanner
+            } else {
+                TODO("VERSION.SDK_INT < LOLLIPOP")
+            }
+            if (!mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            enableLocationService()
+            } else {
+                if (enable) {
+                    // Stops scanning after a pre-defined scan period.
+                    mHandler?.postDelayed({
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                            mLeScanner?.stopScan(scanCallback)
+                        }
+                        mScanning = false
+//                    updateDeviceList()
+                    }, SCAN_PERIOD)
+                    mScanning = true
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        val scanFilters = ArrayList<ScanFilter>()
+                        scanFilters.add(
+                            ScanFilter.Builder().setServiceUuid(
+                                ParcelUuid.fromString(
+                                    "0000CC01-0000-1000-8000-00805F9B34FB"
+                                )
+                            ).build()
+                        )
+                        val scanSettings: ScanSettings =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                                    .build()
+                            } else {
+                                ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                                    .build()
+                            }
+                        mLeScanner?.startScan(scanFilters, scanSettings, scanCallback)
+                    }
+                } else {
+                    mScanning = false
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mLeScanner?.stopScan(scanCallback)
+                    }
+                }
+            }
+        }
+        private val scanCallback = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            object : ScanCallback() {
+
+                override fun onScanResult(callbackType: Int, result: ScanResult) {
+                    super.onScanResult(callbackType, result)
+                    //            if (!localArrayList.contains(result.device)) {
+                    //                localArrayList.add(result.device)
+                    //            }
+                    Utils.d(result.device.name)
+                }
+
+                override fun onBatchScanResults(results: List<ScanResult>) {
+                    super.onBatchScanResults(results)
+//                for (result in results) {
+//                    if (!localArrayList.contains(result.device)) {
+//                        localArrayList.add(result.device)
+//                    }
+//                }
+                }
+            }
+        } else {
+            TODO("VERSION.SDK_INT < LOLLIPOP")
+        }
     }
 }
