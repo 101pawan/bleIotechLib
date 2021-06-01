@@ -1,0 +1,3 @@
+include ':blelibrary'
+include ':app'
+rootProject.name = "bleiotechlib"
