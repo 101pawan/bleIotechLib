@@ -19,7 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import java.util.*
 import kotlin.collections.ArrayList
 
-class BleActivity : AppCompatActivity() {
+open class BleActivity : AppCompatActivity() {
     private var mBluetoothAdapter: BluetoothAdapter? = null
     private var mScanning: Boolean = false
     private var mHandler: Handler? = null
