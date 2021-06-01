@@ -24,7 +24,7 @@ class Initiaze {
     private var timer: Timer? = null
     private var index = 0
 
-    protected fun scanLeDevice(enable: Boolean) {
+    fun scanLeDevice(enable: Boolean) {
         if (!mBluetoothAdapter!!.isEnabled)
             return
         val mLeScanner = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
